@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Faker
+namespace FakingTest
 {
-    public class Class1
+    class A
     {
+        public string a;
+        public short b { get; set; }
+        public List<int> c;
     }
 }
