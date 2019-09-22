@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FakingTest
 {
-    class A
+    class B
     {
-        public string a;
-        public short b { get; set; }
+        public A a;
+        public int b { get; }
     }
 }

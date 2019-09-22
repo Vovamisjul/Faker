@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FakingTest
+namespace Faking.ValueGenerator
 {
-    class A
+    interface IGenerator
     {
-        public string a;
-        public short b { get; set; }
+        object Generate();
     }
 }
