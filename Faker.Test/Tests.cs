@@ -11,10 +11,15 @@ namespace FakingTest
     [TestFixture]
     public class Tests
     {
+        Faker faker;
+        [SetUp]
+        public void SetUp()
+        {
+            faker = new Faker();    
+        }
         [Test]
         public void When_FakerCreates_Expect_NotNullValues()
         {
-            Faker faker = new Faker();
             A a = faker.Create<A>();
             Assert.Multiple(() =>
             {
@@ -34,6 +39,18 @@ namespace FakingTest
                 Assert.NotNull(b.a);
                 Assert.NotZero(b.a.a.Length);
                 Assert.NotZero(b.a.b);
+            });
+        }
+
+        [Test]
+        public void When_RecursionClasses_Expect_NotStackOverflow()
+        {
+            Faker faker = new Faker();
+            D d = faker.Create<D>();
+            Assert.Multiple(() =>
+            {
+                Assert.NotNull(d.c);
+                Assert.NotNull(d.c.d);
             });
         }
     }

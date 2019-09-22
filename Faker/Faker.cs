@@ -13,6 +13,7 @@ namespace Faking
         private Dictionary<Type, object> nestedTypes = new Dictionary<Type, object>();
         public T Create<T>()
         {
+            nestedTypes = new Dictionary<Type, object>();
             T obj = Activator.CreateInstance<T>();
             FillDTO(obj);
             return obj;
@@ -24,32 +25,34 @@ namespace Faking
             bool initialized = false;
             foreach (var property in obj.GetType().GetProperties())
             {
-                if (nestedTypes.ContainsKey(property.PropertyType))
+                if (property.SetMethod != null)
                 {
-                    property.SetValue(obj, nestedTypes[property.PropertyType]);
-                    initialized = true;
-                    continue;
-                }
-                if (recognizer.isGeneration(property.PropertyType))
-                {
-                    property.SetValue(obj, recognizer.Generate(property.PropertyType));
-                    initialized = true;
-                }
-                else
-                {
-                    try
+                    if (nestedTypes.ContainsKey(property.PropertyType))
                     {
-                        object nestedObject = Activator.CreateInstance(property.PropertyType);
-                        FillDTO(nestedObject);
-                        property.SetValue(obj, nestedObject);
+                        property.SetValue(obj, nestedTypes[property.PropertyType]);
+                        initialized = true;
+                        continue;
                     }
-                    catch (Exception)
+                    if (recognizer.isGeneration(property.PropertyType))
                     {
-                        property.SetValue(obj, null);
+                        property.SetValue(obj, recognizer.Generate(property.PropertyType));
+                        initialized = true;
                     }
-                    initialized = true;
+                    else
+                    {
+                        try
+                        {
+                            object nestedObject = Activator.CreateInstance(property.PropertyType);
+                            FillDTO(nestedObject);
+                            property.SetValue(obj, nestedObject);
+                        }
+                        catch (Exception)
+                        {
+                            property.SetValue(obj, null);
+                        }
+                        initialized = true;
+                    }
                 }
-
             }
             foreach (var field in obj.GetType().GetFields())
             {
