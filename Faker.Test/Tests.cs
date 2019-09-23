@@ -37,7 +37,7 @@ namespace FakingTest
             {
                 Assert.NotNull(b.a);
                 Assert.NotZero(b.a.a.Length);
-                Assert.NotZero(b.a.b);
+                Assert.NotNull(b.a.b);
             });
         }
 
@@ -61,6 +61,20 @@ namespace FakingTest
             {
                 Assert.NotNull(e.alist);
                 Assert.AreNotEqual(e.alist[0], e.alist[1]);
+            });
+        }
+
+        [Test]
+        public void When_ClassWithConstructor_Expect_FillIt()
+        {
+            F f = faker.Create<F>();
+
+            Assert.Multiple(() =>
+            {
+                Assert.NotNull(f.a);
+                Assert.NotNull(f.a.a);
+                Assert.NotZero(f.a.b);
+                Assert.NotZero(f.b);
             });
         }
     }

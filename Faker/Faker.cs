@@ -15,7 +15,7 @@ namespace Faking
         public T Create<T>()
         {
             nestedTypes = new Dictionary<Type, object>();
-            T obj = Activator.CreateInstance<T>();
+            T obj = (T)CreateDTO(typeof(T));
             FillDTO(obj);
             return obj;
         }
@@ -44,7 +44,7 @@ namespace Faking
                         }
                         else
                         {
-                            object nestedObject = Activator.CreateInstance(property.PropertyType);
+                            object nestedObject = CreateDTO(property.PropertyType);
                             nestedTypes.Add(property.PropertyType, nestedObject);
                             FillDTO(nestedObject);
                             property.SetValue(obj, nestedObject);
@@ -76,7 +76,7 @@ namespace Faking
                     }
                     else
                     {
-                        object nestedObject = Activator.CreateInstance(field.FieldType);
+                        object nestedObject = CreateDTO(field.FieldType);
                         nestedTypes.Add(field.FieldType, nestedObject);
                         FillDTO(nestedObject);
                         field.SetValue(obj, nestedObject);
@@ -101,7 +101,7 @@ namespace Faking
                 }
                 else
                 {
-                    collectionElem = Activator.CreateInstance(elem);
+                    collectionElem = CreateDTO(elem);
                     FillDTO(collectionElem);
                 }
                 collection.GetMethod("Add").Invoke(collectionClass, new object[] { collectionElem });
@@ -126,6 +126,45 @@ namespace Faking
             if (baseType == null) return false;
 
             return IsAssignableToGenericType(baseType);
+        }
+
+        private object CreateDTO(Type type)
+        {
+            try
+            {
+                var constructor = type.GetConstructors()[0];
+                var parameters = new List<object>();
+                foreach (var parameter in constructor.GetParameters())
+                {
+                    if (recognizer.isGeneration(parameter.ParameterType))
+                    {
+                        parameters.Add(recognizer.Generate(parameter.ParameterType));
+                    }
+                    else
+                    {
+                        if (nestedTypes.ContainsKey(parameter.ParameterType))
+                        {
+                            parameters.Add(nestedTypes[parameter.ParameterType]);
+                        }
+                        else
+                        {
+                            parameters.Add(CreateDTO(parameter.ParameterType));
+                        }
+                    }
+                }
+                return constructor.Invoke(parameters.ToArray());
+            }
+            catch
+            {
+                try
+                {
+                    return Activator.CreateInstance(type);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
         }
     }
 }

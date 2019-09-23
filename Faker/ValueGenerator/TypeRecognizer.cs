@@ -10,7 +10,7 @@ namespace Faking.ValueGenerator
     class TypeRecognizer
     {
 
-        delegate object Generator();
+        private delegate object Generator();
         private Dictionary<Type, Generator> _generators = new Dictionary<Type, Generator>()
         {
             {typeof(int), new IntGenerator().Generate },
