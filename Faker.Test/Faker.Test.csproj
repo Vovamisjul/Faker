@@ -51,6 +51,7 @@
     <Compile Include="A.cs" />
     <Compile Include="B.cs" />
     <Compile Include="CD.cs" />
+    <Compile Include="E.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

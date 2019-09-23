@@ -32,7 +32,6 @@ namespace FakingTest
         [Test]
         public void When_NestedClass_Expect_Initialized2Classes()
         {
-            Faker faker = new Faker();
             B b = faker.Create<B>();
             Assert.Multiple(() =>
             {
@@ -45,12 +44,23 @@ namespace FakingTest
         [Test]
         public void When_RecursionClasses_Expect_NotStackOverflow()
         {
-            Faker faker = new Faker();
             D d = faker.Create<D>();
             Assert.Multiple(() =>
             {
                 Assert.NotNull(d.c);
                 Assert.NotNull(d.c.d);
+            });
+        }
+
+        [Test]
+        public void When_Generics_Expect_FillIt()
+        {
+            E e = faker.Create<E>();
+
+            Assert.Multiple(() =>
+            {
+                Assert.NotNull(e.alist);
+                Assert.AreNotEqual(e.alist[0], e.alist[1]);
             });
         }
     }

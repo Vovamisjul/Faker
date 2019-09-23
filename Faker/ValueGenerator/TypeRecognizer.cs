@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,19 @@ namespace Faking.ValueGenerator
         public object Generate(Type type)
         {
             if (_generators.ContainsKey(type))
+            {
                 return _generators[type]();
-            else
-                return null;
+            }
+            return null;
         }
 
         public bool isGeneration(Type type)
         {
-            return _generators.ContainsKey(type);
+            if (_generators.ContainsKey(type))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
