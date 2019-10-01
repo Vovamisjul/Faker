@@ -10,13 +10,13 @@ namespace Faking
 {
     public class Faker
     {
+        private const int nestedObjectsSize = 10;
         private TypeRecognizer recognizer = new TypeRecognizer();
-        private Dictionary<Type, object> nestedTypes = new Dictionary<Type, object>();
+        private Dictionary<Type, List<object>> nestedTypes = new Dictionary<Type, List<object>>();
         public T Create<T>()
         {
-            nestedTypes = new Dictionary<Type, object>();
+            nestedTypes = new Dictionary<Type, List<object>>();
             T obj = (T)CreateDTO(typeof(T));
-            FillDTO(obj);
             return obj;
         }
 
@@ -40,17 +40,9 @@ namespace Faking
                             FillCollection(property.PropertyType, property.PropertyType.GetGenericArguments().Single());
                             continue;
                         }
-                        if (nestedTypes.ContainsKey(property.PropertyType))
-                        {
-                            property.SetValue(obj, nestedTypes[property.PropertyType]);
-                        }
-                        else
-                        {
-                            object nestedObject = CreateDTO(property.PropertyType);
-                            nestedTypes.Add(property.PropertyType, nestedObject);
-                            FillDTO(nestedObject);
-                            property.SetValue(obj, nestedObject);
-                        }
+                        var nestedObj = CreateDTO(property.PropertyType);
+                        FillDTO(nestedObj);
+                        property.SetValue(obj, CreateDTO(property.PropertyType));
                     }
                 }
                 catch (Exception)
@@ -72,17 +64,8 @@ namespace Faking
                         field.SetValue(obj, FillCollection(field.FieldType, field.FieldType.GetGenericArguments().Single()));
                         continue;
                     }
-                    if (nestedTypes.ContainsKey(field.FieldType))
-                    {
-                        field.SetValue(obj, nestedTypes[field.FieldType]);
-                    }
-                    else
-                    {
-                        object nestedObject = CreateDTO(field.FieldType);
-                        nestedTypes.Add(field.FieldType, nestedObject);
-                        FillDTO(nestedObject);
-                        field.SetValue(obj, nestedObject);
-                    }
+                    var nestedObj = CreateDTO(field.FieldType);
+                    field.SetValue(obj, nestedObj);
                 }
                 catch (Exception)
                 {
@@ -104,7 +87,6 @@ namespace Faking
                 else
                 {
                     collectionElem = CreateDTO(elem);
-                    FillDTO(collectionElem);
                 }
                 
                 (typeof(ICollection<>).MakeGenericType(elem)).GetMethod("Add").Invoke(collectionClass, new object[] { collectionElem });
@@ -133,6 +115,32 @@ namespace Faking
 
         private object CreateDTO(Type type)
         {
+            if (nestedTypes.ContainsKey(type))
+            {
+                if (nestedTypes[type].Count < nestedObjectsSize)
+                {
+                    var obj = ConstructDTO(type);
+                    nestedTypes[type].Add(obj);
+                    FillDTO(obj);
+                    return obj;
+                }
+                else
+                {
+                    return nestedTypes[type][new Random().Next(nestedObjectsSize - 1)];
+                }
+            }
+            else
+            {
+                var obj = ConstructDTO(type);
+                nestedTypes.Add(type, new List<object> { obj });
+                FillDTO(obj);
+                return obj;
+            }
+
+        }
+
+        private object ConstructDTO(Type type)
+        {
             try
             {
                 var constructor = type.GetConstructors()[0];
@@ -152,7 +160,6 @@ namespace Faking
                         else
                         {
                             var obj = CreateDTO(parameter.ParameterType);
-                            FillDTO(obj);
                             parameters.Add(obj);
                         }
                     }

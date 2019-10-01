@@ -56,6 +56,7 @@
     <Compile Include="G.cs" />
     <Compile Include="H.cs" />
     <Compile Include="I.cs" />
+    <Compile Include="J.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

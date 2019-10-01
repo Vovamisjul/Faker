@@ -62,7 +62,7 @@ namespace FakingTest
             Assert.Multiple(() =>
             {
                 Assert.NotNull(e.alist);
-                Assert.AreNotEqual(e.alist[0], e.alist[1]);
+                Assert.NotNull(e.alist[0]);
             });
         }
 
@@ -124,6 +124,18 @@ namespace FakingTest
             Assert.Multiple(() =>
             {
                 Assert.Zero(i.a);
+            });
+        }
+
+        [Test]
+        public void When_GenericsAndRecursion_Expect_FillIt()
+        {
+            J j = faker.Create<J>();
+
+            Assert.Multiple(() =>
+            {
+                Assert.NotNull(j.list);
+                Assert.NotNull(j.list[1]);
             });
         }
     }
