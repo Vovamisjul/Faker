@@ -12,7 +12,8 @@ namespace Faking.ValueGenerator
     {
         public object Generate()
         {
-            return (short)new Random().Next(1, short.MaxValue);
+            var random = new Random();
+            return (short)(random.Next(2) == 0 ? random.Next(1, short.MaxValue) : random.Next(short.MinValue, -1));
         }
 
         public Type GeneratedType()

@@ -11,7 +11,8 @@ namespace Generators
     {
         public object Generate()
         {
-            return (byte)new Random().Next(byte.MaxValue, byte.MaxValue);
+            var random = new Random();
+            return (byte)(random.Next(2) == 0 ? random.Next(1, byte.MaxValue) : random.Next(byte.MinValue, -1));
         }
 
         public Type GeneratedType()
