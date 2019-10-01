@@ -1,22 +1,22 @@
-﻿using System;
+﻿using Generation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Generation;
 
-namespace Faking.ValueGenerator
+namespace Generators
 {
-    class IntGenerator : IGenerator
+    public class ByteGenerator : IGenerator
     {
         public object Generate()
         {
-            return new Random().Next(1, int.MaxValue);
+            return (byte)new Random().Next(byte.MaxValue, byte.MaxValue);
         }
 
         public Type GeneratedType()
         {
-            return typeof(int);
+            return typeof(byte);
         }
     }
 }

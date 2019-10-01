@@ -53,6 +53,9 @@
     <Compile Include="CD.cs" />
     <Compile Include="E.cs" />
     <Compile Include="F.cs" />
+    <Compile Include="G.cs" />
+    <Compile Include="H.cs" />
+    <Compile Include="I.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

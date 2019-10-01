@@ -22,6 +22,8 @@ namespace Faking
 
         private void FillDTO(object obj)
         {
+            if (obj == null)
+                return;
             foreach (var property in obj.GetType().GetProperties())
             {
                 try
@@ -104,7 +106,8 @@ namespace Faking
                     collectionElem = CreateDTO(elem);
                     FillDTO(collectionElem);
                 }
-                collection.GetMethod("Add").Invoke(collectionClass, new object[] { collectionElem });
+                
+                (typeof(ICollection<>).MakeGenericType(elem)).GetMethod("Add").Invoke(collectionClass, new object[] { collectionElem });
             }
             return collectionClass;
         }
@@ -112,7 +115,7 @@ namespace Faking
         private bool IsAssignableToGenericType(Type givenType)
         {
             var interfaceTypes = givenType.GetInterfaces();
-            var genericType = typeof(IEnumerable<>);
+            var genericType = typeof(ICollection<>);
             foreach (var it in interfaceTypes)
             {
                 if (it.IsGenericType && it.GetGenericTypeDefinition() == genericType)
@@ -148,7 +151,9 @@ namespace Faking
                         }
                         else
                         {
-                            parameters.Add(CreateDTO(parameter.ParameterType));
+                            var obj = CreateDTO(parameter.ParameterType);
+                            FillDTO(obj);
+                            parameters.Add(obj);
                         }
                     }
                 }

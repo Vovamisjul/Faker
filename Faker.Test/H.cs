@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace FakingTest
 {
-    class F
+    class H
     {
-        public A a { get; }
-        public int b;
-        public F(A a)
-        {
-            this.a = a;
-        }
+        public DateTime time;
+        public byte b { get; set; }
     }
 }

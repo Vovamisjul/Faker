@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace FakingTest
 {
-    class F
+    class G
     {
-        public A a { get; }
-        public int b;
-        public F(A a)
-        {
-            this.a = a;
-        }
+        public LinkedList<int> kek;
     }
 }

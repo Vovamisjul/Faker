@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Generation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,11 @@ namespace Faking.ValueGenerator
                 builder.Append(ch);
             }
             return builder.ToString();
+        }
+
+        public Type GeneratedType()
+        {
+            return typeof(string);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Faking;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FakingTest
 {
@@ -15,7 +16,8 @@ namespace FakingTest
         [SetUp]
         public void SetUp()
         {
-            faker = new Faker();    
+            faker = new Faker();
+
         }
         [Test]
         public void When_FakerCreates_Expect_NotNullValues()
@@ -75,6 +77,53 @@ namespace FakingTest
                 Assert.NotNull(f.a.a);
                 Assert.NotZero(f.a.b);
                 Assert.NotZero(f.b);
+            });
+        }
+
+        [Test]
+        public void When_Abstract_Expect_null()
+        {
+            var a = faker.Create<Encoding>();
+            Assert.Multiple(() =>
+            {
+                Assert.Null(a);
+            });
+        }
+
+        [Test]
+        public void When_LinkedList_Expect_FillIt()
+        {
+            G g = faker.Create<G>();
+            Assert.Multiple(() =>
+            {
+                Assert.NotNull(g);
+                Assert.NotNull(g.kek);
+                Assert.NotZero(g.kek.Count);
+            });
+        }
+
+        [Test]
+        public void When_ClassFromDll_Expect_FakeIt()
+        {
+            H h = faker.Create<H>();
+            Assert.Multiple(() =>
+            {
+                Assert.NotZero(h.b);
+                Assert.NotNull(h.time);
+                Assert.NotZero(h.time.Hour);
+                Assert.NotZero(h.time.Minute);
+                Assert.NotZero(h.time.Second);
+                Assert.NotZero(h.time.Millisecond);
+            });
+        }
+
+        [Test]
+        public void When_NotSupportedType_Expect_Zero()
+        {
+            I i = faker.Create<I>();
+            Assert.Multiple(() =>
+            {
+                Assert.Zero(i.a);
             });
         }
     }

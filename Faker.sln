@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faking", "Faker\Faking.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faker.Test", "Faker.Test\Faker.Test.csproj", "{6BDD074F-1594-4113-98A0-BDD37AA24B4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IGenerator", "IGenerator\IGenerator.csproj", "{14B3B693-4A4A-40C2-9CD7-328AB7D42B28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generators", "Generators\Generators.csproj", "{AE078EA6-74B9-44E5-84DB-7430213B10C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{6BDD074F-1594-4113-98A0-BDD37AA24B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BDD074F-1594-4113-98A0-BDD37AA24B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BDD074F-1594-4113-98A0-BDD37AA24B4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14B3B693-4A4A-40C2-9CD7-328AB7D42B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14B3B693-4A4A-40C2-9CD7-328AB7D42B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14B3B693-4A4A-40C2-9CD7-328AB7D42B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14B3B693-4A4A-40C2-9CD7-328AB7D42B28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE078EA6-74B9-44E5-84DB-7430213B10C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE078EA6-74B9-44E5-84DB-7430213B10C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE078EA6-74B9-44E5-84DB-7430213B10C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE078EA6-74B9-44E5-84DB-7430213B10C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
